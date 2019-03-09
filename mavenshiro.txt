@@ -1,0 +1,200 @@
+
+ 
+
+ 
+
+SET FOREIGN_KEY_CHECKS=0;
+
+ 
+
+-- ----------------------------
+
+-- Table structure for `sys_permissions`
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `sys_permissions`;
+
+CREATE TABLE `sys_permissions` (
+
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+
+  `permission` varchar(100) DEFAULT NULL COMMENT '权限名',
+
+  `description` varchar(100) DEFAULT NULL COMMENT '描述',
+
+  `available` int(11) DEFAULT NULL COMMENT '是否可用，0表示可用，1表示不可用',
+
+  PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+ 
+
+-- ----------------------------
+
+-- Records of sys_permissions
+
+-- ----------------------------
+
+INSERT INTO `sys_permissions` VALUES ('1', 'user:create', '添加用户', '0');
+
+INSERT INTO `sys_permissions` VALUES ('2', 'user:read', '查询用户', '0');
+
+INSERT INTO `sys_permissions` VALUES ('3', 'user:update', '修改用户', '0');
+
+INSERT INTO `sys_permissions` VALUES ('4', 'user:delete', '删除用户', '0');
+
+INSERT INTO `sys_permissions` VALUES ('5', 'book:create', '添加书籍', '0');
+
+INSERT INTO `sys_permissions` VALUES ('6', 'book:read', '查询书籍', '0');
+
+INSERT INTO `sys_permissions` VALUES ('7', 'book:update', '修改书籍', '0');
+
+INSERT INTO `sys_permissions` VALUES ('8', 'book:delete', '删除书籍', '0');
+
+ 
+
+-- ----------------------------
+
+-- Table structure for `sys_roles`
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `sys_roles`;
+
+CREATE TABLE `sys_roles` (
+
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+
+  `role` varchar(100) DEFAULT NULL COMMENT '角色名',
+
+  `description` varchar(100) DEFAULT NULL COMMENT '描述',
+
+  `available` int(11) DEFAULT NULL COMMENT '是否可用，0表示可用，1表示不可用',
+
+  PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+ 
+
+-- ----------------------------
+
+-- Records of sys_roles
+
+-- ----------------------------
+
+INSERT INTO `sys_roles` VALUES ('1', 'super_admin', '最高级别的角色', '0');
+
+INSERT INTO `sys_roles` VALUES ('2', 'admin', '普通角色', '0');
+
+ 
+
+-- ----------------------------
+
+-- Table structure for `sys_roles_permissions`
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `sys_roles_permissions`;
+
+CREATE TABLE `sys_roles_permissions` (
+
+  `role_id` int(10) unsigned NOT NULL COMMENT '角色id',
+
+  `permission_id` int(10) unsigned NOT NULL COMMENT '权限id',
+
+  PRIMARY KEY (`role_id`,`permission_id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ 
+
+-- ----------------------------
+
+-- Records of sys_roles_permissions
+
+-- ----------------------------
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '1');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '2');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '3');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '4');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '5');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '6');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '7');
+
+INSERT INTO `sys_roles_permissions` VALUES ('1', '8');
+
+ 
+
+-- ----------------------------
+
+-- Table structure for `sys_users`
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `sys_users`;
+
+CREATE TABLE `sys_users` (
+
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+
+  `username` varchar(100) DEFAULT NULL COMMENT '用户名',
+
+  `password` varchar(100) DEFAULT NULL COMMENT '用户名',
+
+  `salt` varchar(100) DEFAULT NULL COMMENT '盐',
+
+  `locked` int(11) DEFAULT NULL COMMENT '是否锁住，0表示未锁，1表示锁住',
+
+  PRIMARY KEY (`id`)
+
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+ 
+
+-- ----------------------------
+
+-- Records of sys_users
+
+-- ----------------------------
+
+INSERT INTO `sys_users` VALUES ('2', 'xl', '23d49e2b98d2a95d82ecd30c0cb5713f', '9ce31fdc59048b65a282a297335acefc', '0');
+
+ 
+
+-- ----------------------------
+
+-- Table structure for `sys_users_roles`
+
+-- ----------------------------
+
+DROP TABLE IF EXISTS `sys_users_roles`;
+
+CREATE TABLE `sys_users_roles` (
+
+  `user_id` int(10) unsigned NOT NULL COMMENT '用户id',
+
+  `role_id` int(10) unsigned NOT NULL COMMENT '角色id',
+
+  PRIMARY KEY (`user_id`,`role_id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ 
+
+-- ----------------------------
+
+-- Records of sys_users_roles
+
+-- ----------------------------
+
+INSERT INTO `sys_users_roles` VALUES ('2', '1');

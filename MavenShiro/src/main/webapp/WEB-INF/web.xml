@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" id="WebApp_ID" version="3.0">
+  <display-name>MavenShiro</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+<!-- 配置shiro过滤器，且该过滤器必须配置在dispatcherServlet之前 ，DelegatingFilterProxy类会自动到Spring容器中
+
+  	查找名字为shiroFilter的bean并把filter请求交给它处理-->
+
+  <filter>
+  	<filter-name>shiroFilter</filter-name>
+	<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	<init-param>
+		<param-name>targetFilterLifecycle</param-name>
+		<param-value>true</param-value>
+	</init-param>
+
+  </filter>
+
+  <filter-mapping>
+	<filter-name>shiroFilter</filter-name>
+	<url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+ 
+
+<!-- 配置监听器，监听spring上下文中对象的创建.注意：mvc配置文件应最后被加载，因为controller依赖service -->
+
+    <context-param>  
+    	<param-name>contextConfigLocation</param-name>  
+        <param-value>  
+        	classpath:spring-mybatis.xml, 
+        	<!-- 因为shiro配置文件里依赖了service,因此必须先加载spring-mybatis.xml -->
+        	classpath:spring-shiro-web.xml
+        </param-value>  
+    </context-param> 
+    
+    <listener>
+
+    	<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+  
+</web-app>

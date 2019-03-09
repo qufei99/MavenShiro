@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sdibt.fight.dao.SysUserDao">
+
+	<!-- 根据用户名查找用户 -->
+
+	<select id="getUserByUsername" parameterType="java.lang.String" resultType="sdibt.fight.entity.SysUser">
+
+		select * from sys_users where username=#{username} and locked=0
+
+	</select>
+
+	
+
+	<!-- 查询用户所有角色 -->
+
+	<select id="listRoles" parameterType="java.lang.String" resultType="java.lang.String">
+
+		select r.role from sys_users u inner join sys_users_roles ur on u.id=ur.user_id 
+
+		inner join sys_roles r on ur.role_id=r.id where u.username=#{username} and u.locked=0
+
+		and r.available=0
+
+	</select>
+
+	
+
+	<!-- 查询用户所有权限,返回值是权限名集合 -->
+
+	<select id="listPermissions" parameterType="java.lang.String" resultType="java.lang.String">
+
+		select p.permission from sys_users u inner join sys_users_roles ur on u.id=ur.user_id 
+
+		inner join sys_roles r on ur.role_id=r.id inner join sys_roles_permissions rp 
+
+		on r.id=rp.role_id inner join sys_permissions p on p.id=rp.permission_id
+
+		where u.username=#{username} and u.locked=0 and r.available=0 and p.available=0
+
+	</select>
+
+	
+
+	
+
+ 	
+
+ 	<!-- 添加用户 -->
+
+ 	<insert id="saveSysUser" parameterType="sdibt.fight.entity.SysUser">
+
+ 		insert into sys_users(username,password,salt,locked) 
+
+ 		values(#{username},#{password},#{salt},#{locked})
+
+ 	</insert>
+
+</mapper>
